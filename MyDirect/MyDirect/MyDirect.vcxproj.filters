@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{GUID}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\Camera\Camera.cpp" />
+    <ClCompile Include="Source\Common\d3dApp.cpp" />
+    <ClCompile Include="Source\Common\d3dUtil.cpp" />
+    <ClCompile Include="Source\Common\DDSTextureLoader.cpp" />
+    <ClCompile Include="Source\Common\GameTimer.cpp" />
+    <ClCompile Include="Source\Common\GeometryGenerator.cpp" />
+    <ClCompile Include="Source\Common\MathHelper.cpp" />
+    <ClCompile Include="Source\MyDXApp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\Camera\Camera.h" />
+    <ClInclude Include="Source\Common\d3dApp.h" />
+    <ClInclude Include="Source\Common\d3dUtil.h" />
+    <ClInclude Include="Source\Common\d3dx12.h" />
+    <ClInclude Include="Source\Common\DDSTextureLoader.h" />
+    <ClInclude Include="Source\Common\GameTimer.h" />
+    <ClInclude Include="Source\Common\GeometryGenerator.h" />
+    <ClInclude Include="Source\Common\MathHelper.h" />
+    <ClInclude Include="Source\Common\UploadBuffer.h" />
+    <ClInclude Include="Source\MyDXApp.h" />
+  </ItemGroup>
+</Project>
