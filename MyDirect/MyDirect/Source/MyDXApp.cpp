@@ -1,6 +1,3 @@
-#ifndef MYDIRECT_SOURCE_MYDXAPP
-#define MYDIRECT_SOURCE_MYDXAPP
-
 #include "Common/d3dApp.h"
 
 #include "MyDXApp.h"
@@ -72,6 +69,3 @@ void MyDXApp::Draw(const GameTimer& gt)
 	// so we do not have to wait per frame.
 	FlushCommandQueue();
 }
-
-
-#endif  // MYDIRECT_SOURCE_MYDXAPP

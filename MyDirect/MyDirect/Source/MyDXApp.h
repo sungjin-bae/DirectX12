@@ -1,3 +1,6 @@
+#ifndef MYDIRECT_SOURCE_MYDXAPP_H
+#define MYDIRECT_SOURCE_MYDXAPP_H
+
 #include "Common/d3dApp.h"
 
 class MyDXApp : public D3DApp
@@ -13,3 +16,5 @@ private:
     virtual void Update(const GameTimer& gt) override;
     virtual void Draw(const GameTimer& gt) override;
 };
+
+#endif  // MYDIRECT_SOURCE_MYDXAPP_H

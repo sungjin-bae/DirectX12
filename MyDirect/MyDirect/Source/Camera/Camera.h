@@ -8,8 +8,8 @@
 //    matrix can be obtained.
 //***************************************************************************************
 
-#ifndef CAMERA_H
-#define CAMERA_H
+#ifndef MYDIRECT_SOURCE_CAMERA_CAMERA_H
+#define MYDIRECT_SOURCE_CAMERA_CAMERA_H
 
 #include "../Common/d3dUtil.h"
 
@@ -95,4 +95,4 @@ private:
 	DirectX::XMFLOAT4X4 mProj = MathHelper::Identity4x4();
 };
 
-#endif // CAMERA_H
+#endif  // MYDIRECT_SOURCE_CAMERA_CAMERA_H
