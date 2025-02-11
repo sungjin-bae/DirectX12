@@ -19,6 +19,9 @@
     <ClCompile Include="Source\Common\GeometryGenerator.cpp" />
     <ClCompile Include="Source\Common\MathHelper.cpp" />
     <ClCompile Include="Source\MyDXApp.cpp" />
+    <ClCompile Include="Source\RenderObject\RenderObject.cpp" />
+    <ClCompile Include="Source\RenderObject\RenderObjManager.cpp" />
+    <ClCompile Include="Source\Common\Singleton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera\Camera.h" />
@@ -31,6 +34,9 @@
     <ClInclude Include="Source\Common\MathHelper.h" />
     <ClInclude Include="Source\Common\UploadBuffer.h" />
     <ClInclude Include="Source\MyDXApp.h" />
+	<ClInclude Include="Source\RenderObject\RenderObject.h" />
+    <ClInclude Include="Source\RenderObject\RenderObjManager.h" />
+    <ClInclude Include="Source\Common\Singleton.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

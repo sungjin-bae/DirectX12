@@ -1,6 +1,8 @@
 #include <windows.h>
 
 #include "MyDXApp.h"
+#include "RenderObject/RenderObject.h"
+#include "RenderObject/RenderObjManager.h"
 
 
 #if defined(DEBUG) || defined(_DEBUG)
@@ -20,5 +22,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	if (!m_app.Initialize())
 		return 0;
 
+	for (int i = 0; i < 100; ++i) {
+
+		auto render_obj = std::make_shared<RenderObject>();
+		RenderObjManager::Instance()->Insert(render_obj);
+	}
+	
 	return m_app.Run();
 }
