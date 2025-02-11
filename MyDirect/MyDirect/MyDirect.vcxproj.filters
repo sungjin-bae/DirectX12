@@ -32,4 +32,7 @@
     <ClInclude Include="Source\Common\UploadBuffer.h" />
     <ClInclude Include="Source\MyDXApp.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>
