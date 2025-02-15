@@ -2,10 +2,8 @@
 
 #include "RenderObject.h"
 
-RenderObject::RenderObject() 
-    : m_world(MathHelper::Identity4x4()) 
-    , m_view(MathHelper::Identity4x4())
-    , m_proj(MathHelper::Identity4x4())
+RenderObject::RenderObject(XMFLOAT3 in_pos, XMFLOAT3 in_rot, XMFLOAT3 in_scale)
+    : ObjectBase(in_pos, in_rot, in_rot)
 {
     static long id = 1;
 

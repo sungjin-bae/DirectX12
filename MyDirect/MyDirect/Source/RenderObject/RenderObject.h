@@ -3,10 +3,13 @@
 
 #include <DirectXMath.h>
 
-class RenderObject
+#include "../Common/ObjectBase.h"
+
+
+class RenderObject : public ObjectBase
 {
 public:
-    RenderObject();
+    RenderObject(XMFLOAT3 in_pos, XMFLOAT3 in_rot, XMFLOAT3 in_scale);
     virtual ~RenderObject();
 
     virtual void Update();
@@ -15,10 +18,6 @@ public:
     long GetObjID();
 
 protected:
-    DirectX::XMFLOAT4X4 m_world;
-    DirectX::XMFLOAT4X4 m_view;
-    DirectX::XMFLOAT4X4 m_proj;
-
     long m_obj_id = 0;
 };
 

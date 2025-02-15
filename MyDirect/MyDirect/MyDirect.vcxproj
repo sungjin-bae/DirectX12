@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Common\ObjectBase.cpp" />
+    <ClCompile Include="Source\Camera\CameraManager.cpp" />
     <ClCompile Include="Source\Common\Singleton.cpp" />
     <ClCompile Include="Source\RenderObject\RenderObjManager.cpp" />
     <ClCompile Include="Source\RenderObject\RenderObject.cpp" />
@@ -33,6 +35,8 @@
     <ClCompile Include="Source\MyDXApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Common\ObjectBase.h" />
+    <ClInclude Include="Source\Camera\CameraManager.h" />
     <ClInclude Include="Source\Common\Singleton.h" />
     <ClInclude Include="Source\RenderObject\RenderObjManager.h" />
     <ClInclude Include="Source\RenderObject\RenderObject.h" />
