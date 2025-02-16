@@ -13,6 +13,9 @@
 
 #include "../Common/d3dUtil.h"
 
+class Camera;
+typedef std::shared_ptr<Camera> CameraSharedPtr;
+
 class Camera
 {
 public:
