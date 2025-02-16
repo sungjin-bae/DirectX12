@@ -15,12 +15,12 @@ public:
     RenderObjManager();
     ~RenderObjManager();
 
-    bool Insert(const std::shared_ptr<RenderObject>& in_obj);
+    void Insert(const RenderObjSharedPtr& in_obj);
     void Delete(long in_obj_id);
     void Clear();
 
 private:
-    std::unordered_map<long, std::shared_ptr<RenderObject>> m_repo;
+    std::unordered_map<long, RenderObjSharedPtr> m_repo;
 };
 
 

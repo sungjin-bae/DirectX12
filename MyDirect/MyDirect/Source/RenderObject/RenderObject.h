@@ -5,6 +5,8 @@
 
 #include "../Common/ObjectBase.h"
 
+class RenderObject;
+typedef std::shared_ptr<RenderObject> RenderObjSharedPtr;
 
 class RenderObject : public ObjectBase
 {
