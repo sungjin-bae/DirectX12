@@ -1,0 +1,10 @@
+1) Renderer 설정.
+	1. (FrameResource) 관리 CPU <-> GPU 동기화
+	2. 스왑체인 관리.
+	3. CommandQueue 로 드로우콜 발생.
+	
+2) Camera
+	1. 위치 정보를 가지고 있다.
+	2. Manager 를 통해 갱신되며 CommandList 를 큐에 넣을 준비를 해둔다.
+	3. 렌더링될 오브젝트를 필터? 가져오는것은 고민이 필요하다.
+		프러스텀 컬링 + 공간 분할 (QuadTree / BVH)
