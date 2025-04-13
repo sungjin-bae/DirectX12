@@ -10,7 +10,7 @@ class CameraManager : public Singleton<CameraManager>
 {
 public:
     CameraManager();
-    ~CameraManager();
+    virtual ~CameraManager();
 
     enum class EStackID : uint8_t
     {

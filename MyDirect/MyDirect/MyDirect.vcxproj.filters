@@ -24,6 +24,9 @@
     <ClCompile Include="Source\Common\Singleton.cpp" />
     <ClCompile Include="Source\Camera\CameraManager.cpp" />
     <ClCompile Include="Source\Common\ObjectBase.cpp" />
+    <ClCompile Include="Source\Renderer\Renderer.cpp" />
+    <ClCompile Include="Source\WindowApp.cpp" />
+    <ClCompile Include="Source\Common\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera\Camera.h" />
@@ -41,6 +44,9 @@
     <ClInclude Include="Source\Common\Singleton.h" />
     <ClInclude Include="Source\Camera\CameraManager.h" />
     <ClInclude Include="Source\Common\ObjectBase.h" />
+    <ClInclude Include="Source\Renderer\Renderer.h" />
+    <ClInclude Include="Source\WindowApp.h" />
+    <ClInclude Include="Source\Common\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

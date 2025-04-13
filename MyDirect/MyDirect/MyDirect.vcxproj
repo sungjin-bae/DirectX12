@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Renderer\Renderer.cpp" />
     <ClCompile Include="Source\Common\ObjectBase.cpp" />
     <ClCompile Include="Source\Camera\CameraManager.cpp" />
     <ClCompile Include="Source\Common\Singleton.cpp" />
@@ -33,8 +34,11 @@
     <ClCompile Include="Source\Common\MathHelper.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\MyDXApp.cpp" />
+    <ClCompile Include="Source\WindowApp.cpp" />
+    <ClCompile Include="Source\Common\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Renderer\Renderer.h" />
     <ClInclude Include="Source\Common\ObjectBase.h" />
     <ClInclude Include="Source\Camera\CameraManager.h" />
     <ClInclude Include="Source\Common\Singleton.h" />
@@ -50,6 +54,8 @@
     <ClInclude Include="Source\Common\MathHelper.h" />
     <ClInclude Include="Source\Common\UploadBuffer.h" />
     <ClInclude Include="Source\MyDXApp.h" />
+    <ClInclude Include="Source\WindowApp.h" />
+    <ClInclude Include="Source\Common\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -8,17 +8,21 @@ private:
 
 protected:
     Singleton() {}
-    virtual ~Singleton() {}
+    virtual ~Singleton() 
+    {
+        if (m_instance != nullptr)
+            delete m_instance;
+    }
 
 public:
-    // º¹»ç »ı¼ºÀÚ ¹× ´ëÀÔ ¿¬»êÀÚ¸¦ »èÁ¦ÇÏ¿© º¹»ç ¹æÁö
+    // ë³µì‚¬ ìƒì„±ì ë° ëŒ€ì… ì—°ì‚°ìë¥¼ ì‚­ì œí•˜ì—¬ ë³µì‚¬ ë°©ì§€
     Singleton(const Singleton&) = delete;
     Singleton& operator=(const Singleton&) = delete;
 
-    // Á¤Àû ¸Ş¼­µå·Î ½Ì±ÛÅæ ÀÎ½ºÅÏ½º¸¦ ¹İÈ¯
+    // ì •ì  ë©”ì„œë“œë¡œ ì‹±ê¸€í†¤ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë°˜í™˜
     static T* Instance() {
         if (m_instance == nullptr) {
-            m_instance = new T();  // ÃÖÃÊ È£Ãâ ½Ã¿¡¸¸ ÀÎ½ºÅÏ½º »ı¼º
+            m_instance = new T();  // ìµœì´ˆ í˜¸ì¶œ ì‹œì—ë§Œ ì¸ìŠ¤í„´ìŠ¤ ìƒì„±
         }
         return m_instance;
     }

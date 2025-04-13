@@ -13,7 +13,7 @@ class RenderObjManager : public Singleton<RenderObjManager>
 {
 public:
     RenderObjManager();
-    ~RenderObjManager();
+    virtual ~RenderObjManager();
 
     void Insert(const RenderObjSharedPtr& in_obj);
     void Delete(long in_obj_id);
