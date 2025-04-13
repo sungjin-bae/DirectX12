@@ -2,7 +2,14 @@
 #include <Windowsx.h>
 
 #include "Common/Timer.h"
+#include "Renderer/Renderer.h"
 
+LRESULT CALLBACK MainWndProc(HWND in_hwnd, UINT in_msg, WPARAM in_wParam, LPARAM in_lParam)
+{
+    // Forward hwnd on because we can get messages (e.g., WM_CREATE)
+    // before CreateWindow returns, and thus before mhMainWnd is valid.
+    return WindowApp::Instance()->MsgProc(in_hwnd, in_msg, in_wParam, in_lParam);
+}
 
 WindowApp::WindowApp()
     : m_h_app_instance(nullptr)
@@ -16,7 +23,6 @@ WindowApp::WindowApp()
     , m_client_width(800)
     , m_client_height(600)
 {
-    m_timer = Timer();
 }
 
 WindowApp::~WindowApp()
@@ -30,10 +36,13 @@ bool WindowApp::Initialize(HINSTANCE in_h_instance)
 
     m_h_app_instance = in_h_instance;
 
-    if (!InitMainWindow())
+    if (InitMainWindow() == false)
         return false;
 
-    return Init();
+    if (InitRenderer() == false)
+        return false;
+
+    return true;
 }
 
 int WindowApp::Run()
@@ -110,6 +119,13 @@ bool WindowApp::InitMainWindow()
 
     ShowWindow(m_h_main_wnd, SW_SHOW);
     UpdateWindow(m_h_main_wnd);
+
+    return true;
+}
+
+bool WindowApp::InitRenderer() 
+{
+    Renderer::Instance()->Init();
 
     return true;
 }
@@ -241,11 +257,4 @@ LRESULT WindowApp::MsgProc(HWND in_hwnd, UINT in_msg, WPARAM in_wParam, LPARAM i
     }
 
     return DefWindowProc(in_hwnd, in_msg, in_wParam, in_lParam);
-}
-
-LRESULT CALLBACK MainWndProc(HWND in_hwnd, UINT in_msg, WPARAM in_wParam, LPARAM in_lParam)
-{
-    // Forward hwnd on because we can get messages (e.g., WM_CREATE)
-    // before CreateWindow returns, and thus before mhMainWnd is valid.
-    return WindowApp::Instance()->MsgProc(in_hwnd, in_msg, in_wParam, in_lParam);
 }

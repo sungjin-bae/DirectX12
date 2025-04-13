@@ -17,11 +17,11 @@ private:
     double m_seconds_per_count;
     double m_delta_time;
 
-    long m_base_time;
-    long m_paused_time;
-    long m_stop_time;
-    long m_prev_time;
-    long m_curr_time;
+    __int64 m_base_time;
+    __int64 m_paused_time;
+    __int64 m_stop_time;
+    __int64 m_prev_time;
+    __int64 m_curr_time;
 
     bool m_stopped;
 };

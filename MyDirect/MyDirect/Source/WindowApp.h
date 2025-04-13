@@ -25,7 +25,6 @@ public:
 
 protected:
     // Override these functions in derived class
-    virtual bool Init() { return true; }
     virtual void OnResize() {}
     virtual void Update(float in_deltaTime) {}
     virtual void Draw() {}
@@ -37,6 +36,7 @@ protected:
 
     // Window creation
     bool InitMainWindow();
+    bool InitRenderer();
 
 private:
     HINSTANCE m_h_app_instance;        // application instance handle
