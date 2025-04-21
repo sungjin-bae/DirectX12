@@ -3,6 +3,7 @@
 
 #include <DirectXMath.h>
 
+#include "RendererType.h"
 #include "../Common/ObjectBase.h"
 
 class RenderObject;
@@ -17,10 +18,12 @@ public:
     virtual void Update();
     virtual void Render();
 
-    long GetObjID();
-
+    long GetObjID() const { return const_cast<const long&>(m_obj_id); }
+    auto GetRendererType() const -> const ERendererType { return const_cast<const ERendererType&>(m_renderer_type); }
 protected:
     long m_obj_id = 0;
+
+    ERendererType m_renderer_type = ERendererType::OBJECT3D;
 };
 
 #endif  // MYDIRECT_SOURCE_RENDER_OBJECT_OBJECT_H

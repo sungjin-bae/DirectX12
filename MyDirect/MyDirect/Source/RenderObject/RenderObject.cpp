@@ -24,8 +24,3 @@ void RenderObject::Render()
 {
 
 }
-
-long RenderObject::GetObjID()
-{
-    return m_obj_id;
-}

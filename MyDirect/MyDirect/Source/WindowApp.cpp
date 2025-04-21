@@ -1,10 +1,13 @@
 #include "WindowApp.h"
 #include <Windowsx.h>
 
+#include "Camera/CameraManager.h"
 #include "Common/Timer.h"
 #include "Renderer/Renderer.h"
+#include "RenderObject/RenderObjManager.h"
+#include "RenderObject/RenderObject.h"
 
-LRESULT CALLBACK MainWndProc(HWND in_hwnd, UINT in_msg, WPARAM in_wParam, LPARAM in_lParam)
+auto CALLBACK MainWndProc(HWND in_hwnd, UINT in_msg, WPARAM in_wParam, LPARAM in_lParam) -> LRESULT
 {
     // Forward hwnd on because we can get messages (e.g., WM_CREATE)
     // before CreateWindow returns, and thus before mhMainWnd is valid.
@@ -12,16 +15,7 @@ LRESULT CALLBACK MainWndProc(HWND in_hwnd, UINT in_msg, WPARAM in_wParam, LPARAM
 }
 
 WindowApp::WindowApp()
-    : m_h_app_instance(nullptr)
-    , m_h_main_wnd(nullptr)
-    , m_app_paused(false)
-    , m_minimized(false)
-    , m_maximized(false)
-    , m_resizing(false)
-    , m_fullscreen_state(false)
-    , m_main_wnd_caption(L"SJ Direct Engine")
-    , m_client_width(800)
-    , m_client_height(600)
+    : m_h_app_instance(nullptr), m_h_main_wnd(nullptr), m_app_paused(false), m_minimized(false), m_maximized(false), m_resizing(false), m_fullscreen_state(false), m_main_wnd_caption(L"SJ Direct Engine"), m_client_width(800), m_client_height(600)
 {
 }
 
@@ -47,7 +41,7 @@ bool WindowApp::Initialize(HINSTANCE in_h_instance)
 
 int WindowApp::Run()
 {
-    MSG msg = { 0 };
+    MSG msg = {0};
 
     m_timer.Reset();
 
@@ -104,13 +98,13 @@ bool WindowApp::InitMainWindow()
     }
 
     // Compute window rectangle dimensions based on requested client area dimensions.
-    RECT rect = { 0, 0, m_client_width, m_client_height };
+    RECT rect = {0, 0, m_client_width, m_client_height};
     AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
     int width = rect.right - rect.left;
     int height = rect.bottom - rect.top;
 
     m_h_main_wnd = CreateWindow(L"MainWnd", m_main_wnd_caption.c_str(),
-        WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, width, height, 0, 0, m_h_app_instance, 0);
+                                WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, width, height, 0, 0, m_h_app_instance, 0);
     if (!m_h_main_wnd)
     {
         MessageBox(0, L"CreateWindow Failed.", 0, 0);
@@ -123,9 +117,10 @@ bool WindowApp::InitMainWindow()
     return true;
 }
 
-bool WindowApp::InitRenderer() 
+bool WindowApp::InitRenderer()
 {
-    Renderer::Instance()->Init();
+    if (Renderer::Instance()->Init(m_h_main_wnd) == false)
+        return false;
 
     return true;
 }
@@ -134,9 +129,9 @@ LRESULT WindowApp::MsgProc(HWND in_hwnd, UINT in_msg, WPARAM in_wParam, LPARAM i
 {
     switch (in_msg)
     {
-        // WM_ACTIVATE is sent when the window is activated or deactivated.  
-        // We pause the game when the window is deactivated and unpause it 
-        // when it becomes active.  
+        // WM_ACTIVATE is sent when the window is activated or deactivated.
+        // We pause the game when the window is deactivated and unpause it
+        // when it becomes active.
     case WM_ACTIVATE:
         if (LOWORD(in_wParam) == WA_INACTIVE)
         {
@@ -150,7 +145,7 @@ LRESULT WindowApp::MsgProc(HWND in_hwnd, UINT in_msg, WPARAM in_wParam, LPARAM i
         }
         return 0;
 
-        // WM_SIZE is sent when the user resizes the window.  
+        // WM_SIZE is sent when the user resizes the window.
     case WM_SIZE:
         // Save the new client area dimensions.
         m_client_width = LOWORD(in_lParam);
@@ -186,13 +181,13 @@ LRESULT WindowApp::MsgProc(HWND in_hwnd, UINT in_msg, WPARAM in_wParam, LPARAM i
             }
             else if (m_resizing)
             {
-                // If user is dragging the resize bars, we do not resize 
-                // the buffers here because as the user continuously 
+                // If user is dragging the resize bars, we do not resize
+                // the buffers here because as the user continuously
                 // drags the resize bars, a stream of WM_SIZE messages are
                 // sent to the window, and it would be pointless (and slow)
                 // to resize for each WM_SIZE message received from dragging
-                // the resize bars.  So instead, we reset after the user is 
-                // done resizing the window and releases the resize bars, which 
+                // the resize bars.  So instead, we reset after the user is
+                // done resizing the window and releases the resize bars, which
                 // sends a WM_EXITSIZEMOVE message.
             }
             else // API call such as SetWindowPos or mSwapChain->SetFullscreenState.
@@ -223,8 +218,8 @@ LRESULT WindowApp::MsgProc(HWND in_hwnd, UINT in_msg, WPARAM in_wParam, LPARAM i
         PostQuitMessage(0);
         return 0;
 
-        // The WM_MENUCHAR message is sent when a menu is active and the user presses 
-        // a key that does not correspond to any mnemonic or accelerator key. 
+        // The WM_MENUCHAR message is sent when a menu is active and the user presses
+        // a key that does not correspond to any mnemonic or accelerator key.
     case WM_MENUCHAR:
         // Don't beep when we alt-enter.
         return MAKELRESULT(0, MNC_CLOSE);
@@ -257,4 +252,56 @@ LRESULT WindowApp::MsgProc(HWND in_hwnd, UINT in_msg, WPARAM in_wParam, LPARAM i
     }
 
     return DefWindowProc(in_hwnd, in_msg, in_wParam, in_lParam);
+}
+
+void WindowApp::OnResize()
+{
+}
+
+void WindowApp::Update(float in_deltaTime)
+{
+}
+
+void WindowApp::Draw()
+{
+    for (uint8_t stack_id = 0; stack_id < static_cast<uint8_t>(CameraManager::EStackID::MAX) + 1; ++stack_id)
+    {
+        for (const auto &[camera_order, camera_ptr] : CameraManager::Instance()->GetCameras(static_cast<CameraManager::EStackID>(stack_id)))
+        {
+            camera_ptr->UpdateViewMatrix();
+
+            // 모든 렌더러 타입에 대해 체크
+            for (uint8_t type = 0; type < static_cast<uint8_t>(ERendererType::MAX); ++type)
+            {
+                if (camera_ptr->GetRendererTypeBit(static_cast<ERendererType>(type)))
+                {
+                    const auto& render_objects = RenderObjManager::Instance()->GetRenderObjects(static_cast<ERendererType>(type));
+                    for (const auto& render_object : render_objects)
+                    {
+                        //render_object->Update(camera_ptr);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void WindowApp::OnMouseDown(WPARAM in_btnState, int in_x, int in_y)
+{
+}
+
+void WindowApp::OnMouseUp(WPARAM in_btnState, int in_x, int in_y)
+{
+}
+
+void WindowApp::OnMouseMove(WPARAM in_btnState, int in_x, int in_y)
+{
+}
+
+void WindowApp::OnKeyDown(WPARAM in_wParam)
+{
+}
+
+void WindowApp::OnKeyUp(WPARAM in_wParam)
+{
 }

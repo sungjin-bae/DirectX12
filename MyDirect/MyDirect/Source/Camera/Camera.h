@@ -8,10 +8,11 @@
 //    matrix can be obtained.
 //***************************************************************************************
 
-#ifndef MYDIRECT_SOURCE_CAMERA_CAMERA_H
-#define MYDIRECT_SOURCE_CAMERA_CAMERA_H
+#pragma once
 
 #include "../Common/d3dUtil.h"
+#include "../Common/ObjectBase.h"
+#include "../RenderObject/RendererType.h"
 
 class Camera;
 typedef std::shared_ptr<Camera> CameraSharedPtr;
@@ -75,6 +76,15 @@ public:
 	// After modifying camera position/orientation, call to rebuild the view matrix.
 	void UpdateViewMatrix();
 
+	// 렌더러 타입 비트 플래그 설정
+	void SetRendererTypeBit(ERendererType in_type, bool in_enable);
+	
+	// 렌더러 타입 비트 플래그 반환
+	auto GetRendererTypeBit(ERendererType in_type) const -> bool;
+	
+	// 전체 렌더러 타입 비트 플래그 반환
+	auto GetRendererTypeBits() const -> uint32_t { return m_renderer_type_bits; }
+
 private:
 
 	// Camera coordinate system with coordinates relative to world space.
@@ -96,6 +106,7 @@ private:
 	// Cache View/Proj matrices.
 	DirectX::XMFLOAT4X4 mView = MathHelper::Identity4x4();
 	DirectX::XMFLOAT4X4 mProj = MathHelper::Identity4x4();
-};
 
-#endif  // MYDIRECT_SOURCE_CAMERA_CAMERA_H
+	// 렌더러 타입 비트 플래그
+	uint32_t m_renderer_type_bits = 0;
+};

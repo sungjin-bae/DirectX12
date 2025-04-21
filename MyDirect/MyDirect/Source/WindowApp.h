@@ -21,18 +21,18 @@ public:
     HWND GetMainWnd() const { return m_h_main_wnd; }
 
     // Window message handlers
-    virtual LRESULT MsgProc(HWND in_hwnd, UINT in_msg, WPARAM in_wParam, LPARAM in_lParam);
+    auto MsgProc(HWND in_hwnd, UINT in_msg, WPARAM in_wParam, LPARAM in_lParam) -> LRESULT;
 
 protected:
     // Override these functions in derived class
-    virtual void OnResize() {}
-    virtual void Update(float in_deltaTime) {}
-    virtual void Draw() {}
-    virtual void OnMouseDown(WPARAM in_btnState, int in_x, int in_y) {}
-    virtual void OnMouseUp(WPARAM in_btnState, int in_x, int in_y) {}
-    virtual void OnMouseMove(WPARAM in_btnState, int in_x, int in_y) {}
-    virtual void OnKeyDown(WPARAM in_wParam) {}
-    virtual void OnKeyUp(WPARAM in_wParam) {}
+    void OnResize();
+    void Update(float in_deltaTime);
+    void Draw();
+    void OnMouseDown(WPARAM in_btnState, int in_x, int in_y);
+    void OnMouseUp(WPARAM in_btnState, int in_x, int in_y);
+    void OnMouseMove(WPARAM in_btnState, int in_x, int in_y);
+    void OnKeyDown(WPARAM in_wParam);
+    void OnKeyUp(WPARAM in_wParam);
 
     // Window creation
     bool InitMainWindow();

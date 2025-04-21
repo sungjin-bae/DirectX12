@@ -3,8 +3,7 @@
 CameraManager::CameraManager() {}
 CameraManager::~CameraManager() {}
 
-
-bool CameraManager::AddCameraForStack(EStackID in_stack_id, uint8_t in_order, const CameraSharedPtr& in_cam)
+bool CameraManager::AddCameraForStack(EStackID in_stack_id, uint8_t in_order, const CameraSharedPtr &in_cam)
 {
     if (in_cam == nullptr)
         return false;
@@ -19,7 +18,7 @@ bool CameraManager::RemoveCameraForStack(EStackID in_stack_id, uint8_t in_order)
     if (stack_id_itr == m_stack.end())
         return false;
 
-    auto& order_id_map = stack_id_itr->second;
+    auto &order_id_map = stack_id_itr->second;
     auto order_id_itr = order_id_map.find(in_order);
     if (order_id_itr == order_id_map.end())
         return false;
@@ -39,10 +38,20 @@ void CameraManager::Clear(EStackID in_stack_id, uint8_t in_order)
     if (stack_id_itr == m_stack.end())
         return;
 
-    auto& order_id_map = stack_id_itr->second;
+    auto &order_id_map = stack_id_itr->second;
     auto order_id_itr = order_id_map.find(in_order);
     if (order_id_itr == order_id_map.end())
         return;
 
     order_id_map.erase(order_id_itr);
+}
+
+auto CameraManager::GetCameras(EStackID in_stack_id) -> const std::unordered_map<uint8_t, CameraSharedPtr>&
+{
+    static std::unordered_map<uint8_t, CameraSharedPtr> empty_map;
+    auto it = m_stack.find(in_stack_id);
+    if (it == m_stack.end())
+        return empty_map;
+
+    return it->second;
 }

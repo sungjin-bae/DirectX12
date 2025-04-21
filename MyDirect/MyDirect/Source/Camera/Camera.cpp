@@ -6,13 +6,9 @@
 
 using namespace DirectX;
 
-Camera::Camera()
-{
-	SetLens(0.25f*MathHelper::Pi, 1.0f, 1.0f, 1000.0f);
-}
-
 Camera::~Camera()
 {
+	SetLens(0.25f*MathHelper::Pi, 1.0f, 1.0f, 1000.0f);
 }
 
 XMVECTOR Camera::GetPosition()const
@@ -270,6 +266,18 @@ void Camera::UpdateViewMatrix()
 
 		mViewDirty = false;
 	}
+}
+
+void Camera::SetRendererTypeBit(ERendererType in_type, bool in_enable)
+{
+	const uint32_t bit_mask = 1 << static_cast<uint32_t>(in_type);
+	m_renderer_type_bits = in_enable ? (m_renderer_type_bits | bit_mask) : (m_renderer_type_bits & ~bit_mask);
+}
+
+auto Camera::GetRendererTypeBit(ERendererType in_type) const -> bool
+{
+	const uint32_t bit_mask = 1 << static_cast<uint32_t>(in_type);
+	return (m_renderer_type_bits & bit_mask) != 0;
 }
 
 
