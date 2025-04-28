@@ -1,5 +1,4 @@
-#ifndef MYDIRECT_SOURCE_RENDER_OBJECT_OBJECT_H
-#define MYDIRECT_SOURCE_RENDER_OBJECT_OBJECT_H
+#pragma once
 
 #include <DirectXMath.h>
 
@@ -17,16 +16,22 @@ public:
 
     virtual void Update();
     virtual void Render();
+    virtual void OnChanged() override;
 
-    long GetObjID() const { return const_cast<const long&>(m_obj_id); }
-    auto GetRendererType() const -> const ERendererType { return const_cast<const ERendererType&>(m_renderer_type); }
-protected:
-    long m_obj_id = 0;
+    void SetRendererType(ERendererType in_type) { m_renderer_type = in_type; }
+    ERendererType GetRendererType() const { return m_renderer_type; }
 
+    long GetObjID() const { return m_obj_id; }
+
+private:
+    long m_obj_id;
     ERendererType m_renderer_type = ERendererType::OBJECT3D;
+
+    // 변환 행렬들
+    DirectX::XMMATRIX m_world_matrix;
+    DirectX::XMMATRIX m_scale_matrix;
+    DirectX::XMMATRIX m_rotation_matrix;
+    DirectX::XMMATRIX m_translation_matrix;
+
+    bool m_need_update;
 };
-
-#endif  // MYDIRECT_SOURCE_RENDER_OBJECT_OBJECT_H
-
-
-
