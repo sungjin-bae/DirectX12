@@ -73,8 +73,6 @@ bool Renderer::Init(HWND in_h_window)
     CreateSwapChain();
     CreateRtvAndDsvDescriptorHeaps();
 
-	BuildDescriptorHeaps();
-
 	// [함수명]                   [설명]                                          [쉐이더 변경 영향 여부]
 	// BuildDescriptorHeaps()     : CBV/SRV/UAV DescriptorHeap 생성                 - 거의 영향 없음 (※ 리소스 종류 추가 시 영향)
 	// BuildConstantBuffers()     : ConstantBuffer 리소스 생성                     - 거의 영향 없음 (※ CB 구조 변경 시 영향)
