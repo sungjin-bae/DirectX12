@@ -5,6 +5,12 @@
 #include "RendererType.h"
 #include "../Common/ObjectBase.h"
 
+struct Vertex
+{
+    XMFLOAT3 Pos;
+    XMFLOAT4 Color;
+};
+
 class RenderObject;
 typedef std::shared_ptr<RenderObject> RenderObjSharedPtr;
 
@@ -34,4 +40,10 @@ private:
     DirectX::XMMATRIX m_translation_matrix;
 
     bool m_need_update;
+
+    // 정점과 인덱스 데이터
+    static constexpr size_t NUM_VERTICES = 8;
+    static constexpr size_t NUM_INDICES = 36;
+    std::array<Vertex, NUM_VERTICES> m_vertices;
+    std::array<std::uint16_t, NUM_INDICES> m_indices;
 };

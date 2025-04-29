@@ -73,12 +73,33 @@ bool Renderer::Init(HWND in_h_window)
     CreateSwapChain();
     CreateRtvAndDsvDescriptorHeaps();
 
+	BuildDescriptorHeaps();
+
+	// [함수명]                   [설명]                                          [쉐이더 변경 영향 여부]
+	// BuildDescriptorHeaps()     : CBV/SRV/UAV DescriptorHeap 생성                 - 거의 영향 없음 (※ 리소스 종류 추가 시 영향)
+	// BuildConstantBuffers()     : ConstantBuffer 리소스 생성                     - 거의 영향 없음 (※ CB 구조 변경 시 영향)
+	// BuildRootSignature()       : RootSignature 설정 (리소스 바인딩 규칙 정의)     - 영향 있음
+	// BuildShadersAndInputLayout(): Shader 컴파일 + InputLayout(Vertex 포맷) 정의   - 영향 있음
+	// BuildPSO()                 : PipelineStateObject 생성 (Shader, Rasterizer 등) - 영향 있음
+
+	// BuildConstantBuffers();
+    // BuildRootSignature();
+    // BuildShadersAndInputLayout();
+    // BuildBoxGeometry();
+    // BuildPSO();
+
 	return true;
 }
 
 void Renderer::Draw()
 {
+	// 명령어 기록과 관련된 메모리를 재사용합니다.
+    // 명령어 리스트가 GPU에서 실행이 완료된 후에만 리셋할 수 있습니다.
+	AssertHRESULT(m_direct_cmd_list_alloc->Reset());
 
+	// 명령어 리스트는 ExecuteCommandList를 통해 명령어 큐에 추가된 후에 리셋할 수 있습니다.
+    // 명령어 리스트를 재사용하면 메모리를 재사용할 수 있습니다.
+    AssertHRESULT(m_command_list->Reset(m_direct_cmd_list_alloc.Get(), m_pso.Get()));
 }
 
 void Renderer::CreateCommandObjects()
@@ -91,6 +112,16 @@ void Renderer::CreateCommandObjects()
 	AssertHRESULT(m_d3d_device->CreateCommandAllocator(
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
 		IID_PPV_ARGS(m_direct_cmd_list_alloc.GetAddressOf())));
+
+	AssertHRESULT(m_d3d_device->CreateCommandList(
+		0,
+		D3D12_COMMAND_LIST_TYPE_DIRECT,
+		m_direct_cmd_list_alloc.Get(),
+		nullptr,
+		IID_PPV_ARGS(m_command_list.GetAddressOf())));
+
+	// 명령어 리스트는 생성 시점에 열린 상태로 생성되므로 닫아줍니다.
+	m_command_list->Close();
 }
 
 void Renderer::CreateSwapChain()
@@ -215,4 +246,39 @@ void Renderer::LogOutputDisplayModes(IDXGIOutput* in_output, DXGI_FORMAT in_form
 
 		::OutputDebugString(text.c_str());
 	}
+}
+
+
+void Renderer::BuildPipelineState()
+{
+    D3D12_GRAPHICS_PIPELINE_STATE_DESC pso_desc;
+    ZeroMemory(&pso_desc, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));
+    
+    pso_desc.InputLayout = { m_input_layout.data(), (UINT)m_input_layout.size() };
+    pso_desc.pRootSignature = m_root_signature.Get();
+    
+    pso_desc.VS = 
+    { 
+        reinterpret_cast<BYTE*>(m_vs_byte_code->GetBufferPointer()), 
+        m_vs_byte_code->GetBufferSize() 
+    };
+    
+    pso_desc.PS = 
+    { 
+        reinterpret_cast<BYTE*>(m_ps_byte_code->GetBufferPointer()), 
+        m_ps_byte_code->GetBufferSize() 
+    };
+    
+    pso_desc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+    pso_desc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+    pso_desc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+    pso_desc.SampleMask = UINT_MAX;
+    pso_desc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+    pso_desc.NumRenderTargets = 1;
+    pso_desc.RTVFormats[0] = m_back_buffer_format;
+    pso_desc.SampleDesc.Count = m_4x_msaa_state ? 4 : 1;
+    pso_desc.SampleDesc.Quality = m_4x_msaa_state ? (m_4x_msaa_quality - 1) : 0;
+    pso_desc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+    
+    AssertHRESULT(m_d3d_device->CreateGraphicsPipelineState(&pso_desc, IID_PPV_ARGS(&m_pso)));
 }

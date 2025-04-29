@@ -1,4 +1,3 @@
-
 #ifndef MYDIRECT_SOURCE_RENDERER_RENDERER_H
 #define MYDIRECT_SOURCE_RENDERER_RENDERER_H
 
@@ -19,6 +18,8 @@ private:
     void CreateCommandObjects();
     void CreateSwapChain();
     void CreateRtvAndDsvDescriptorHeaps();
+    void BuildPipelineState();
+    void BuildDescriptorHeaps();
 
     void LogAdapters();
     void LogAdapterOutputs(IDXGIAdapter* in_adapter);
@@ -34,11 +35,24 @@ private:
     Microsoft::WRL::ComPtr<ID3D12Fence> m_fence;
     UINT64 m_current_fence = 0;
 
-    Microsoft::WRL::ComPtr<ID3D12CommandAllocator> m_direct_cmd_list_alloc;
+
+
+    // CommandList를 제출해서 GPU가 실행
     Microsoft::WRL::ComPtr<ID3D12CommandQueue> m_command_queue;
+    // 명령어를 저장할 메모리 제공
+    Microsoft::WRL::ComPtr<ID3D12CommandAllocator> m_direct_cmd_list_alloc;
+    // 명령어를 저장하고 녹화(Record)
+    Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> m_command_list;
 
     Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_rtv_heap;
     Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_dsv_heap;
+
+    Microsoft::WRL::ComPtr<ID3D12PipelineState> m_pso;
+    Microsoft::WRL::ComPtr<ID3D12RootSignature> m_root_signature;
+
+    std::vector<D3D12_INPUT_ELEMENT_DESC> m_input_layout;
+    Microsoft::WRL::ComPtr<ID3DBlob> m_vs_byte_code;
+    Microsoft::WRL::ComPtr<ID3DBlob> m_ps_byte_code;
 
     static const int swap_chain_buffer_count = 2;
 
