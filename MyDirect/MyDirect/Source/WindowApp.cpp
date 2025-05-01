@@ -277,11 +277,13 @@ void WindowApp::Draw()
                 {
                     const auto& render_objects = RenderObjManager::Instance()->GetRenderObjects(static_cast<ERendererType>(type));
                     for (const auto& render_object : render_objects)
+                    {
                         render_object->Update();
-                }
+                        Renderer::Instance()->BuildPSO(render_object);
 
-                // 뷰 포지션 업데이트 완료.
-                // render_object 의 버텍스 정보를 세팅해야한다.
+                        Renderer::Instance()->Draw();
+                    }
+                }
             }
         }
     }
